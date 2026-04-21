@@ -1,4 +1,4 @@
-<h2>Olympic games app</h2>
+<!-- <h2>Olympic games app</h2>
 <hr/>
 <div>
   <div>
@@ -17,4 +17,10 @@
     </div>
   </div>
   <canvas id="DashboardPieChart">{{ pieChart }}</canvas>
+</div> -->
+ <h2>Olympic games app</h2>
+<hr/>
+<div *ngIf="olympics$ | async as olympics">
+  <app-chart [data]="olympics"></app-chart>
+  
 </div>

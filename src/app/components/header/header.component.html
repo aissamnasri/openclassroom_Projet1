@@ -1,0 +1,8 @@
+<h1>{{ title }}</h1>
+
+<div class="stats">
+  <div *ngFor="let stat of stats" class="stat">
+    <p>{{ stat.label }}</p>
+    <h2>{{ stat.value }}</h2>
+  </div>
+</div>

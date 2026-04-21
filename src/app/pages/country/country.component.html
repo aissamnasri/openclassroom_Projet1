@@ -1,4 +1,4 @@
-<div>
+<!-- <div>
   <div>
     <div class="center">
       <div>{{ titlePage }}</div>
@@ -27,4 +27,7 @@
   <div class="center">
     <a routerLink="">Go back</a>
   </div>
+</div> -->
+<div *ngIf="country$ | async as countryData">
+  <app-chart [data]="countryData"></app-chart>
 </div>
