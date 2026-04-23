@@ -4,24 +4,31 @@ import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { CountryComponent } from "./pages/country/country.component";
 
-const routes: Routes = [
-  {
-    path: '',
-    component: HomeComponent,
-  },
-  {
-    path : 'country/:countryName',
-    component : CountryComponent
-  },
+// const routes: Routes = [
+//   {
+//     path: '',
+//     component: HomeComponent,
+//   },
+//   {
+//     path : 'country/:countryName',
+//     component : CountryComponent
+//   },
 
-  {
-    path : 'not-found',
-    component : NotFoundComponent
-  },
-  {
-    path: '**',
-    component: NotFoundComponent,
-  },
+//   {
+//     path : 'not-found',
+//     component : NotFoundComponent
+//   },
+//   {
+//     path: '**',
+//     component: NotFoundComponent,
+//   },
+// ];
+const routes = [
+  { path: '', component: HomeComponent },
+  { path: 'country/:id', component: CountryComponent },
+  { path: 'not-found', component: NotFoundComponent },
+  { path: '**', redirectTo: 'not-found' },
+   { path: '**', redirectTo: 'not-found' }
 ];
 
 @NgModule({

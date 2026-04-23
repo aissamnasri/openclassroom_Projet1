@@ -67,11 +67,12 @@
 //     this.pieChart = pieChart;
 //   }
 // }
-
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { OlympicService } from '../../services/olympic.service';
 import { Olympic } from '../../models/olympic.model';
+import { Stat } from '../../models/stat.model';
+import { OlympicService } from '../../services/olympic.service';
 
 @Component({
   selector: 'app-home',
@@ -80,10 +81,29 @@ import { Olympic } from '../../models/olympic.model';
 export class HomeComponent implements OnInit {
 
   olympics$!: Observable<Olympic[]>;
+  stats: Stat[] = [];
 
-  constructor(private olympicService: OlympicService) {}
+  constructor(
+    private olympicService: OlympicService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.olympics$ = this.olympicService.getOlympics();
+
+    this.olympics$.subscribe((data: Olympic[]) => {
+      this.stats = [
+        { label: 'Nombre de pays', value: data.length },
+        {
+          label: 'Total médailles',
+          value: data.reduce((sum, c) =>
+            sum + c.participations.reduce((s, p) => s + p.medalsCount, 0), 0)
+        }
+      ];
+    });
+  }
+
+  onChartClick(country: Olympic): void {
+    this.router.navigate(['/country', country.id]);
   }
 }

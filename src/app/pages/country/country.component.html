@@ -1,33 +1,19 @@
-<!-- <div>
-  <div>
-    <div class="center">
-      <div>{{ titlePage }}</div>
-    </div>
-    <div class="split">
-      <div>
-        <p>Number of entries</p>
-        <p>{{ totalEntries }}</p>
-      </div>
-      <div>
-        <p>Total Number of medals</p>
-        <p>{{ totalMedals }}</p>
-      </div>
-      <div>
-        <p>Total Number of athletes</p>
-        <p>{{ totalAthletes }}</p>
-      </div>
-    </div>
-  </div>
-  <div class="chart-container wrapper-container">
-    <div class="container">
-      <canvas id="countryChart">{{ lineChart }}</canvas>
-      <h2>Date</h2>
-    </div>
-  </div>
-  <div class="center">
-    <a routerLink="">Go back</a>
-  </div>
-</div> -->
-<div *ngIf="country$ | async as countryData">
-  <app-chart [data]="countryData"></app-chart>
+<button (click)="goBack()">← Retour</button>
+
+<div *ngIf="country$ | async as country; else error">
+
+  <app-header
+    [title]="country.country"
+    [stats]="stats">
+  </app-header>
+
+  <app-chart
+    [data]="[country]"
+    chartType="line">
+  </app-chart>
+
 </div>
+
+<ng-template #error>
+  <p>Pays introuvable</p>
+</ng-template>

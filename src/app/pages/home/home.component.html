@@ -18,9 +18,16 @@
   </div>
   <canvas id="DashboardPieChart">{{ pieChart }}</canvas>
 </div> -->
- <h2>Olympic games app</h2>
-<hr/>
+<app-header
+  title="Jeux Olympiques"
+  [stats]="stats">
+</app-header>
+
 <div *ngIf="olympics$ | async as olympics">
-  <app-chart [data]="olympics"></app-chart>
-  
+  <app-chart
+    [data]="olympics"
+    chartType="pie"
+    (chartClick)="onChartClick($event)">
+  </app-chart>
+
 </div>

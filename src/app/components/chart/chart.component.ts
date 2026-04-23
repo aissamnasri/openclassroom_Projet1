@@ -1,57 +1,104 @@
-import { Component, Input, OnChanges, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { Chart } from 'chart.js/auto';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  ViewChild
+} from '@angular/core';
+import Chart from 'chart.js/auto';
+import { ChartType } from 'chart.js';
+import { Olympic } from '../../models/olympic.model';
 
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html'
 })
-export class ChartComponent implements OnChanges, AfterViewInit {
+export class ChartComponent implements AfterViewInit, OnChanges {
 
-  @Input() data: any[] = [];
+  @Input() data: Olympic[] = [];
+  @Input() chartType: ChartType = 'pie';
 
-  @ViewChild('chartCanvas') chartRef!: ElementRef;
+  @Output() chartClick = new EventEmitter<Olympic>();
 
-  chart: any;
-  viewInitialized = false;
+  @ViewChild('canvas') canvasRef!: ElementRef<HTMLCanvasElement>;
+
+  private chart!: Chart;
+  private viewReady = false;
 
   ngAfterViewInit(): void {
-    this.viewInitialized = true;
-    this.tryCreateChart();
+    this.viewReady = true;
+    this.tryRender();
   }
 
   ngOnChanges(): void {
-    this.tryCreateChart();
+    this.tryRender();
   }
 
-  tryCreateChart() {
-    if (this.viewInitialized && this.data && this.data.length) {
-      this.createChart();
+  private tryRender(): void {
+    if (this.viewReady && this.data.length) {
+      this.renderChart();
     }
   }
 
-  createChart() {
+  private renderChart(): void {
 
-  if (this.chart) {
-    this.chart.destroy();
-  }
-
-  const labels = this.data.map(d => d.country);
-
-  const totalMedals = this.data.map(d =>
-    d.participations.reduce((sum: number, p: any) => sum + p.medalsCount, 0)
-  );
-
-  this.chart = new Chart(this.chartRef.nativeElement, {
-    type: 'bar',
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          label: 'Total Médailles',
-          data: totalMedals,
-        }
-      ]
+    // 🔥 détruire ancien chart
+    if (this.chart) {
+      this.chart.destroy();
     }
-  });
+
+    let labels: string[] = [];
+    let values: number[] = [];
+
+    // 👉 MODE DÉTAIL (1 seul pays → évolution)
+    if (this.data.length === 1) {
+
+      const country = this.data[0];
+
+      labels = country.participations.map(p => p.year.toString());
+      values = country.participations.map(p => p.medalsCount);
+
+    } else {
+      // 👉 MODE DASHBOARD (plusieurs pays)
+      labels = this.data.map(d => d.country);
+
+      values = this.data.map(d =>
+        d.participations.reduce((sum, p) => sum + p.medalsCount, 0)
+      );
+    }
+
+    // 🚀 création du chart
+    this.chart = new Chart(this.canvasRef.nativeElement, {
+      type: this.chartType,
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Médailles',
+            data: values
+          }
+        ]
+      },
+     options: {
+  onClick: (event, _elements, chart) => {
+
+    const points = chart.getElementsAtEventForMode(
+      event as unknown as Event,
+      'nearest',
+      { intersect: true },
+      true
+    );
+
+    if (points.length) {
+      const index = points[0].index;
+
+      this.chartClick.emit(this.data[index]);
+    }
+  }
 }
+    });
+  }
 }
