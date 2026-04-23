@@ -1,29 +1,71 @@
-# OlympicGamesStarter
+# 🏅 Olympic Dashboard (Angular)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.6.
+## 📌 Description
 
-Don't forget to install your node_modules before starting (`npm install`).
+Application Angular permettant de visualiser les médailles olympiques par pays.
 
-## Development server
+Fonctionnalités :
+- Dashboard avec graphique des médailles
+- Page détail par pays avec évolution
+- Navigation dynamique
+- Gestion des erreurs (page 404)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+---
 
-## Build
+## 🚀 Installation
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Prérequis
 
-## Where to start
+- Node.js (>= 18)
+- Angular CLI
 
-As you can see, an architecture has already been defined for the project. It is just a suggestion, you can choose to use your own. The predefined architecture includes (in addition to the default angular architecture) the following:
+```bash
+npm install -g @angular/cli
+Lancer le projet
+npm install
+ng serve
 
-- `components` folder: contains every reusable components
-- `pages` folder: contains components used for routing
-- `core` folder: contains the business logic (`services` and `models` folders)
+👉 Accéder à :
 
-I suggest you to start by understanding this starter code. Pay an extra attention to the `app-routing.module.ts` and the `olympic.service.ts`.
+http://localhost:4200
+🏗️ Architecture
+src/app/
+  ├── components/     # composants réutilisables
+  ├── pages/          # pages (home, country, not-found)
+  ├── services/       # accès aux données
+  ├── models/         # interfaces TypeScript
+📊 Fonctionnalités
+🏠 Dashboard
+Pie chart des médailles
+Navigation au clic
+🌍 Page détail
+Statistiques du pays
+Graphique d’évolution
+🚨 Gestion des erreurs
+URL invalide → redirection 404
+données manquantes → redirection
+📱 Responsive
 
-Once mastered, you should continue by creating the typescript interfaces inside the `models` folder. As you can see I already created two files corresponding to the data included inside the `olympic.json`. With your interfaces, improve the code by replacing every `any` by the corresponding interface.
+L’application est compatible :
 
-You're now ready to implement the requested features.
+Desktop 💻
+Mobile 📱
+📸 Captures d’écran
+<img width="1166" height="818" alt="deskotop_home" src="https://github.com/user-attachments/assets/00e1b247-ec40-42f9-b599-8605c597a3fb" />
+<img width="1197" height="973" alt="detail_deskotop" src="https://github.com/user-attachments/assets/4aae7a89-24b4-4b6f-b998-00db867b9c88" />
 
-Good luck!
+<img width="518" height="941" alt="mobile" src="https://github.com/user-attachments/assets/24c97ab8-5bb7-4d9d-9362-2fab4de1adbd" />
+
+<img width="491" height="918" alt="image" src="https://github.com/user-attachments/assets/58e76e7b-37a8-4fac-949b-7fefa065cf68" />
+
+
+🧠 Choix techniques
+Angular (architecture modulaire)
+TypeScript (typage strict)
+Chart.js (visualisation)
+RxJS (gestion async)
+🚀 Améliorations possibles
+ajout d’un backend API
+animations avancées
+design UI amélioré
+caching des données
